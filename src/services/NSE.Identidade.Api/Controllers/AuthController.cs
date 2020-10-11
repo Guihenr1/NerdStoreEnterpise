@@ -54,7 +54,7 @@ namespace NSE.Identidade.Api.Controllers
             {
                 return Ok();
             }
-
+            
             return BadRequest();
         }
     }
