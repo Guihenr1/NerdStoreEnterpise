@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using NSE.Catalogo.Api.Data;
+using NSE.Catalogo.Api.Models;
 
 namespace NSE.Catalogo.Api
 {
@@ -25,7 +27,13 @@ namespace NSE.Catalogo.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<CatalogoContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddControllers();
+
+            services.AddScoped<IProdutoRepository, IProdutoRepository>();
+            services.AddScoped<CatalogoContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
