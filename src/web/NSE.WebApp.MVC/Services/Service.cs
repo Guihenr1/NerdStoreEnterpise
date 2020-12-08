@@ -6,7 +6,7 @@ using NSE.WebApp.MVC.Extensions;
 
 namespace NSE.WebApp.MVC.Services
 {
-    public class Service {
+    public abstract class Service {
         protected StringContent ObterConteudo(object dado) {
             return new StringContent(
                 JsonSerializer.Serialize(dado),
