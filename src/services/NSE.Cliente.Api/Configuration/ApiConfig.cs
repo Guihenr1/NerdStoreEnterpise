@@ -4,13 +4,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NSE.Clientes.Api.Data;
 
-namespace NSE.Cliente.Api.Configuration
+namespace NSE.Clientes.Api.Configuration
 {
     public static class ApiConfig {
         public static void AddApiConfiguration(this IServiceCollection services, IConfiguration configuration) {
-            //services.AddDbContext<ClientesContext>(options =>
-            //    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ClientesContext>(options =>
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
             services.AddControllers();
 

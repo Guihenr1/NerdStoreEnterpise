@@ -1,7 +1,7 @@
 ﻿using System;
 using NSE.Core.DomainObjects;
 
-namespace NSE.Cliente.Api.Models
+namespace NSE.Clientes.Api.Models
 {
     public class Cliente : Entity, IAggregateRoot {
         public string Nome { get; private set; }
@@ -13,8 +13,9 @@ namespace NSE.Cliente.Api.Models
         // EF Relation
         protected Cliente() { }
 
-        public Cliente(Guid id, string nome, string email, string cpf) {
-            Id = id,
+        public Cliente(Guid id, string nome, string email, string cpf)
+        {
+            Id = id;
             Nome = nome;
             Email = new Email(email);
             Cpf = new Cpf(cpf);

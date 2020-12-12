@@ -1,7 +1,7 @@
 ﻿using System;
 using NSE.Core.DomainObjects;
 
-namespace NSE.Cliente.Api.Models
+namespace NSE.Clientes.Api.Models
 {
     public class Endereco : Entity {
         public string Logradouro { get; private set; }

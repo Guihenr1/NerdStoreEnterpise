@@ -4,9 +4,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using NSE.Cliente.Api.Configuration;
+using NSE.Clientes.Api.Configuration;
+using NSE.WebAPI.Core.Identidade;
 
-namespace NSE.Cliente.Api
+namespace NSE.Clientes.Api
 {
     public class Startup {
         public IConfiguration Configuration { get; }
@@ -28,7 +29,7 @@ namespace NSE.Cliente.Api
         public void ConfigureServices(IServiceCollection services) {
             services.AddApiConfiguration(Configuration);
 
-            // services.AddJwtConfiguration(Configuration);
+            services.AddJwtConfiguration(Configuration);
 
             services.AddSwaggerConfiguration();
 
