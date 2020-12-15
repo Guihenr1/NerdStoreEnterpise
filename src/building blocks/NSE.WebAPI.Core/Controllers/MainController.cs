@@ -1,21 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.EntityFrameworkCore.Internal;
+using FluentValidation.Results;
 
-namespace NSE.Identidade.Api.Controllers
-{
+namespace NSE.WebAPI.Core.Controllers {
     [ApiController]
-    public abstract class MainController : Controller
-    {
+    public abstract class MainController : Controller {
         protected ICollection<string> Erros = new List<string>();
 
-        protected ActionResult CustomResponse(object result = null)
-        {
-            if (OperacaoValida())
-            {
+        protected ActionResult CustomResponse(object result = null) {
+            if (OperacaoValida()) {
                 return Ok(result);
             }
 
@@ -34,18 +29,23 @@ namespace NSE.Identidade.Api.Controllers
             return CustomResponse();
         }
 
-        protected bool OperacaoValida()
-        {
-            return !EnumerableExtensions.Any(Erros);
+        protected ActionResult CustomResponse(ValidationResult validationResult) {
+            foreach (var erro in validationResult.Errors) {
+                AdicionarErroProcessamento(erro.ErrorMessage);
+            }
+
+            return CustomResponse();
         }
 
-        protected void AdicionarErroProcessamento(string erro)
-        {
+        protected bool OperacaoValida() {
+            return !Erros.Any();
+        }
+
+        protected void AdicionarErroProcessamento(string erro) {
             Erros.Add(erro);
         }
 
-        protected void LimparErrosProcessamento()
-        {
+        protected void LimparErrosProcessamento() {
             Erros.Clear();
         }
     }
