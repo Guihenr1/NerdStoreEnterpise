@@ -29,7 +29,7 @@ namespace NSE.WebAPI.Core.Controllers {
             return CustomResponse();
         }
 
-        protected ActionResult CustomResponse(ValidationResult validationResult) {
+        protected ActionResult guilCustomResponse(ValidationResult validationResult) {
             foreach (var erro in validationResult.Errors) {
                 AdicionarErroProcessamento(erro.ErrorMessage);
             }
