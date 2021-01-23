@@ -8,10 +8,9 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using NSE.WebApp.MVC.Models;
 using NSE.WebApp.MVC.Services;
-using UsuarioLogin = NSE.WebApp.MVC.Models.UsuarioLogin;
-using UsuarioRegistro = NSE.WebApp.MVC.Models.UsuarioRegistro;
 
-namespace NSE.WebApp.MVC.Controllers {
+namespace NSE.WebApp.MVC.Controllers
+{
     public class IdentidadeController : MainController
     {
         private readonly IAutenticacaoService _autenticacaoService;
@@ -30,7 +29,7 @@ namespace NSE.WebApp.MVC.Controllers {
 
         [HttpPost]
         [Route("nova-conta")]
-        public async Task<ActionResult> Registro(UsuarioRegistro usuarioRegistro)
+        public async Task<IActionResult> Registro(UsuarioRegistro usuarioRegistro)
         {
             if (!ModelState.IsValid) return View(usuarioRegistro);
 
@@ -40,20 +39,22 @@ namespace NSE.WebApp.MVC.Controllers {
 
             await RealizarLogin(resposta);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Catalogo");
         }
 
         [HttpGet]
         [Route("login")]
-        public IActionResult Login() 
+        public IActionResult Login(string returnUrl = null)
         {
+            ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login(UsuarioLogin usuarioLogin, string returnUrl= null) 
+        public async Task<IActionResult> Login(UsuarioLogin usuarioLogin, string returnUrl = null)
         {
+            ViewData["ReturnUrl"] = returnUrl;
             if (!ModelState.IsValid) return View(usuarioLogin);
 
             var resposta = await _autenticacaoService.Login(usuarioLogin);
@@ -62,7 +63,7 @@ namespace NSE.WebApp.MVC.Controllers {
 
             await RealizarLogin(resposta);
 
-            if (string.IsNullOrEmpty(returnUrl)) return RedirectToAction("Index", "Home");
+            if (string.IsNullOrEmpty(returnUrl)) return RedirectToAction("Index", "Catalogo");
 
             return LocalRedirect(returnUrl);
         }
@@ -72,7 +73,7 @@ namespace NSE.WebApp.MVC.Controllers {
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Catalogo");
         }
 
         private async Task RealizarLogin(UsuarioRespostaLogin resposta)

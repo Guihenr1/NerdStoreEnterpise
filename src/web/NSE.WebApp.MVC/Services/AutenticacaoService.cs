@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using NSE.WebApp.MVC.Extensions;
 using NSE.WebApp.MVC.Models;
-using UsuarioLogin = NSE.WebApp.MVC.Models.UsuarioLogin;
-using UsuarioRegistro = NSE.WebApp.MVC.Models.UsuarioRegistro;
 
 namespace NSE.WebApp.MVC.Services
 {
@@ -13,7 +11,8 @@ namespace NSE.WebApp.MVC.Services
     {
         private readonly HttpClient _httpClient;
 
-        public AutenticacaoService(HttpClient httpClient, IOptions<AppSettings> settings)
+        public AutenticacaoService(HttpClient httpClient, 
+                                   IOptions<AppSettings> settings)
         {
             httpClient.BaseAddress = new Uri(settings.Value.AutenticacaoUrl);
 
@@ -25,10 +24,11 @@ namespace NSE.WebApp.MVC.Services
             var loginContent = ObterConteudo(usuarioLogin);
 
             var response = await _httpClient.PostAsync("/api/identidade/autenticar", loginContent);
-            
+
             if (!TratarErrosResponse(response))
             {
-                return new UsuarioRespostaLogin() {
+                return new UsuarioRespostaLogin
+                {
                     ResponseResult = await DeserializarObjetoResponse<ResponseResult>(response)
                 };
             }
@@ -36,14 +36,16 @@ namespace NSE.WebApp.MVC.Services
             return await DeserializarObjetoResponse<UsuarioRespostaLogin>(response);
         }
 
-        public async Task<UsuarioRespostaLogin> Registro(UsuarioRegistro usuarioRegistro) 
+        public async Task<UsuarioRespostaLogin> Registro(UsuarioRegistro usuarioRegistro)
         {
             var registroContent = ObterConteudo(usuarioRegistro);
 
             var response = await _httpClient.PostAsync("/api/identidade/nova-conta", registroContent);
-            
-            if (!TratarErrosResponse(response)) {
-                return new UsuarioRespostaLogin() {
+
+            if (!TratarErrosResponse(response))
+            {
+                return new UsuarioRespostaLogin
+                {
                     ResponseResult = await DeserializarObjetoResponse<ResponseResult>(response)
                 };
             }

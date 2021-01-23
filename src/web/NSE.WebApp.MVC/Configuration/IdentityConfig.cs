@@ -12,11 +12,11 @@ namespace NSE.WebApp.MVC.Configuration
                 .AddCookie(options =>
                 {
                     options.LoginPath = "/login";
-                    options.AccessDeniedPath = "/acesso-negado";
+                    options.AccessDeniedPath = "/erro/403";
                 });
         }
 
-        public static void UserIdentityConfiguration(this IApplicationBuilder app)
+        public static void UseIdentityConfiguration(this IApplicationBuilder app)
         {
             app.UseAuthentication();
             app.UseAuthorization();

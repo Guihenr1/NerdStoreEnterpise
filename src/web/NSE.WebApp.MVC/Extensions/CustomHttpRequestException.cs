@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Net;
 
-namespace NSE.WebApp.MVC.Extensions {
-    public class CustomHttpRequestException : Exception {
+namespace NSE.WebApp.MVC.Extensions
+{
+    public class CustomHttpRequestException : Exception
+    {
         public HttpStatusCode StatusCode;
 
         public CustomHttpRequestException() { }
@@ -10,7 +12,8 @@ namespace NSE.WebApp.MVC.Extensions {
         public CustomHttpRequestException(string message, Exception innerException)
             : base(message, innerException) { }
 
-        public CustomHttpRequestException(HttpStatusCode statusCode) {
+        public CustomHttpRequestException(HttpStatusCode statusCode)
+        {
             StatusCode = statusCode;
         }
     }

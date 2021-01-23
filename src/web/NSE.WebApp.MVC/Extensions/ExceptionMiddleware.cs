@@ -6,29 +6,43 @@ using Refit;
 
 namespace NSE.WebApp.MVC.Extensions
 {
-    public class ExceptionMiddleware {
+    public class ExceptionMiddleware
+    {
         private readonly RequestDelegate _next;
 
-        public ExceptionMiddleware(RequestDelegate next) {
+        public ExceptionMiddleware(RequestDelegate next)
+        {
             _next = next;
         }
 
-        public async Task InvokeAsync(HttpContext httpContext) {
-            try {
+        public async Task InvokeAsync(HttpContext httpContext)
+        {
+            try
+            {
                 await _next(httpContext);
-            } catch (CustomHttpRequestException ex) {
+            }
+            catch (CustomHttpRequestException ex)
+            {
                 HandleRequestExceptionAsync(httpContext, ex.StatusCode);
-            } catch (ValidationApiException ex) {
+            }
+            catch (ValidationApiException ex)
+            {
                 HandleRequestExceptionAsync(httpContext, ex.StatusCode);
-            } catch (ApiException ex) {
+            }
+            catch (ApiException ex)
+            {
                 HandleRequestExceptionAsync(httpContext, ex.StatusCode);
-            } catch (BrokenCircuitException) {
+            }
+            catch (BrokenCircuitException)
+            {
                 HandleCircuitBreakerExceptionAsync(httpContext);
             }
         }
 
-        private static void HandleRequestExceptionAsync(HttpContext context, HttpStatusCode statusCode) {
-            if (statusCode == HttpStatusCode.Unauthorized) {
+        private static void HandleRequestExceptionAsync(HttpContext context, HttpStatusCode statusCode)
+        {
+            if (statusCode == HttpStatusCode.Unauthorized)
+            {
                 context.Response.Redirect($"/login?ReturnUrl={context.Request.Path}");
                 return;
             }
@@ -36,7 +50,8 @@ namespace NSE.WebApp.MVC.Extensions
             context.Response.StatusCode = (int)statusCode;
         }
 
-        private static void HandleCircuitBreakerExceptionAsync(HttpContext context) {
+        private static void HandleCircuitBreakerExceptionAsync(HttpContext context)
+        {
             context.Response.Redirect("/sistema-indisponivel");
         }
     }

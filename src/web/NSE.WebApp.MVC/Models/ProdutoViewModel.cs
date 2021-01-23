@@ -2,7 +2,8 @@
 
 namespace NSE.WebApp.MVC.Models
 {
-    public class ProdutoViewModel {
+    public class ProdutoViewModel
+    {
         public Guid Id { get; set; }
         public string Nome { get; set; }
         public string Descricao { get; set; }
